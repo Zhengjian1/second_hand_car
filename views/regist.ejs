@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>汽车平台</title>
+   <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
+    <style>
+        body{
+          background: #ececec ;
+        }
+        div[role="alert"]{
+            padding:4px 10px;
+            margin-top:6px;
+            margin-bottom:6px;
+            display: none;
+        }
+        .pwdstrength{
+            margin-top: 30px;
+            margin-bottom:10px;
+            text-align: center;
+            position: relative;
+            display: none;
+        }
+        .pwdstrength div{
+            color:white;
+            line-height: 22px;
+        }
+        .pwdstrength div:nth-of-type(1){
+            border-radius: 10px 0 0 10px;
+        }
+         .pwdstrength div:nth-of-type(4){
+            border-radius: 0 10px 10px 0;
+        }
+        .pwdstrength .jiujiu{
+            position: absolute;
+            width:23px;
+            height: 31px;
+            background: url(images/jiujiu.png);
+            top: -32px;
+            left:0;
+            transition:all 0.4s ease 0s;
+        }
+            .nav{
+                width: 100%;
+                height: 100%;
+                background: #fff;
+             }
+
+            .header{
+                width: 1208px;
+                height: 80px;
+                margin:0 auto;
+            }
+                         
+            .logo{
+                 float:left;
+                 width: 408px;
+                 height: 80px;
+                 line-height: 80px;
+                 text-align: left;
+                 color:#108ee9;
+                 font-size:30px;
+             }                                                                      
+
+            .content{
+               width: 800px;   
+               height: 80px;
+               float:left;
+               
+               font-size:14px;
+            }                     
+            .content ul{
+                  list-style:none;
+                  height: 80px;
+                  width: 800px;
+                  padding-left:265px;
+            }                                   
+            .content li{
+                float:left !important;
+                line-height:80px;
+            }                                                       
+             .content a{
+                 display: block;
+                 padding:0 22px;
+                 color:#5f5f5f;
+            }     
+            .content a.cur{
+                font-weight:bold;
+                color:#108eec;
+                border-bottom:2px solid #108eec;
+            }                                                                                                                                            
+             .content a:hover{              
+                color:#108eec;
+                border-bottom:2px solid #108eec;  
+                text-decoration: none;
+        }     
+    </style>
+</head>
+
+<body>
+    <!-- 导航条-->
+    <% include nav.ejs %>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>注册</h1>
+            </div>
+        </div>
+
+        <hr>
+
+         <div class="row">
+             <div class="col-lg-7 form_box form-horizontal">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+                    <div class="col-sm-10">
+                        <input type="email" data-checkvalid class="form-control" id="emailTxt" placeholder="Email">
+                             <div class="alert alert-danger" role="alert" data-validtip="emailrequired">
+                                 请输入email地址
+                             </div>
+                             <div class="alert alert-danger" role="alert" data-validtip="emailregexp">
+                                 请输入合法的email地址
+                             </div>
+                             <div class="alert alert-danger" role="alert" data-validtip="emailzhanyong">
+                                 email地址已经被注册，请更换或直接<a href="/login">登录</a>
+                             </div>
+                             <div class="alert alert-success" role="alert" data-validtip="emailkeyong">
+                                 email地址可用！
+                             </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" data-checkvalid class="form-control" id="pwdTxt" />
+                        <p style="color:#2f2f2f">
+                            密码至少6位，必须有小写字母、大写字母、符号、数字中的三种。至少达到“强”。
+                        </p>
+                         <div class="col-sm-6">
+                           <div class="row pwdstrength">
+                                <div style="background:red;"     class="dj col-lg-3 col-md-3 col-sm-3 col-xs-3">弱</div>
+                                <div style="background:#FFC107;" class="dj col-lg-3 col-md-3 col-sm-3 col-xs-3">中</div>
+                                <div style="background:#8BC34A;" class="dj col-lg-3 col-md-3 col-sm-3 col-xs-3">强</div>
+                                <div style="background:#84e811;" class="dj col-lg-3 col-md-3 col-sm-3 col-xs-3">很强</div>
+                                <p class="jiujiu"></p>
+                           </div>
+                        </div>
+                    </div>
+                 
+                </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">确认密码</label>
+                    <div class="col-sm-10">
+                        <input type="password" data-checkvalid class="form-control" id="pwd2Txt" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="button" id="submitBtn" class="btn btn-success" disabled>确认注册</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/jquery-3.2.1.min.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <script>
+        //表单的验证
+        (function(){
+            //验证对象，都是true表示表单没有错误了
+            var valid = {
+                emailrequired : false,      //email的必填
+                emailregexp : false,        //email通过正则式
+                emailusable : false,        //email与后台验证可用
+                passwordrequired : false,   //密码必填
+                passwordcomplexity : false ,//密码的复杂度，数字、小写字母、大写字母、符号必须有3种。
+                confirmpassword : false     //确认密码
+            };
+
+            //email的验证
+            $("#emailTxt").change(function(){
+                var email = $(this).val();
+                //改变valid对象中的必填错误：
+                valid.emailrequired = email.length > 0;
+                if(valid.emailrequired){
+                    $("[data-validtip=emailrequired]").hide();
+                }else{
+                    $("[data-validtip=emailrequired]").show();
+                    $("[data-validtip=emailregexp]").hide();
+                }
+
+                if(!valid.emailrequired)  return;
+                //正则表达式
+                valid.emailregexp = /^(\w)+(\.\w+)*@(\w)+((\.\w+)+)$/.test(email);
+                if(valid.emailregexp){
+                    $("[data-validtip=emailregexp]").hide();
+                }else{
+                    $("[data-validtip=emailregexp]").show();
+                    $("[data-validtip=emailzhanyong]").hide();
+                    $("[data-validtip=emailkeyong]").hide();
+                }
+
+                if(!valid.emailregexp)  return;
+                //验证用户名是否被占用
+                $.ajax({
+                    type : "checkout",
+                    data : {
+                        email : email
+                    },
+                    url : "/regist",
+                    success : function(data){
+                        if(data.result){
+                            valid.emailusable = true;
+                            $("[data-validtip=emailkeyong]").show();
+                            $("[data-validtip=emailzhanyong]").hide();
+                        }else{
+                            valid.emailusable = false;
+                            $("[data-validtip=emailzhanyong]").show();
+                            $("[data-validtip=emailkeyong]").hide();
+                        }
+
+                    }
+                });
+            });
+
+            //密码的验证
+            $("#pwdTxt").bind("input",function(){
+                var pwd = $(this).val();
+                if(pwd.length > 0){
+                    $(".pwdstrength").show();
+                    valid.passwordrequired = true;
+                }else{
+                    valid.passwordrequired = false;
+                }
+                //强度分数
+                var score = 0;
+                if(/[a-z]/.test(pwd)) score++;
+                if(/[A-Z]/.test(pwd)) score++;
+                if(/[\d]/.test(pwd)) score++;
+                if(/[\~\`\@\#\$\%\^\&\*\(\)\_\-\+\=\[\]\{\}\\\|\?\/\>\<\,\.\!]/.test(pwd)) score++;
+                //将这个分数显示为dom，等级：
+                switch (score){
+                    case 0:
+                    case 1:
+                        var dj = 0;
+                        break;
+                    case 2:
+                        var dj = 1;
+                        break;
+                    case 3:
+                        var dj = 2;
+                        break;
+                    case 4:
+                        var dj = 3;
+                        break;
+                }
+                //6位一下，永远dj为0
+                if(pwd.length < 6) dj = 0;
+
+                $(".jiujiu").css({
+                    "left" : $(".dj").eq(dj).offset().left - $(".pwdstrength").offset().left + $(".dj").eq(dj).width() / 2 + 6
+                });
+               
+                //等级如果是强、很强，此时开锁
+                if(dj >= 2){
+                    valid.passwordcomplexity = true;
+                }
+            });
+
+            //确认密码
+            $("#pwd2Txt").bind("input",function(){
+                var pwd2 = $(this).val();
+
+                if(pwd2 == $("#pwdTxt").val()){
+                    valid.confirmpassword = true;
+                }else{
+                    valid.confirmpassword = false;
+                }
+            });
+
+
+            //当有input元素被改变的时候，验证是否都合法了
+            $("[data-checkvalid]").change(function(){
+                //遍历所有元素，看看是不是都是true
+                var flag = true;  //都真
+                for(var k in valid){
+                    if(!valid[k]){
+                        //脏标记
+                        flag = false;
+                    }
+                }
+                //验证标记
+                if(flag){
+                    $("#submitBtn").attr("disabled",false);
+                }else{
+                    $("#submitBtn").attr("disabled",true);
+                }
+            });
+
+            //注册按钮
+            $("#submitBtn").click(function(){
+                            var email = $("#emailTxt").val();
+                            var pwd = $("#pwdTxt").val();
+                            $.post("/regist" , {
+                                email : email,
+                                pwd : pwd
+                             },function(data){
+                            if(data.result == 1){
+                                alert("恭喜注册成功！");
+                                window.location = "/login";
+                            }else if(data.result == -1){
+                                alert("对不起，服务器错误，请联系管理员！");
+                            }else if(data.result == -2){
+                                alert("我不知道你怎么躲过了验证，但是你用户名已经被占用了！");
+                            }else if(data.result == -3){
+                                alert("我不知道你怎么躲过了验证，但是你密码强度不够！");
+                            }else if(data.result == -4){
+                                alert("我不知道你怎么躲过了验证，但是你email不合法！");
+                            }
+                });
+            });
+        })();
+
+
+        $(".content").delegate("li a","click",function(){
+                console.log($(".content").find("a").length);
+                $(".content").find("a").removeClass("cur");
+                $(this).addClass("cur");
+         });
+
+     
+    </script>
+</body>
+</html>
